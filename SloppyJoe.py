@@ -1,10 +1,13 @@
 #!/usr/bin/python
 import random
 
+
+# A recipe generator? Have an ingredient associated with each name (would have to fewer names, and mostly ones of a specific ethnicity, and then have base recipes for the adjectives)
+
 class SloppyJoe(object):
 	def __init__(self):
-		self.adjectives = [x.rstrip() for x in open("words.txt").readlines()]
-		self.names = [x.rstrip() for x in open("names.txt").readlines()]
+		self.adjectives = [x.rstrip() for x in open("words.txt")]
+		self.names = [x.rstrip() for x in open("names.txt")]
 
 	def get_adjective(self):
 		return random.sample(self.adjectives, 1)[0]
@@ -18,7 +21,7 @@ class SloppyJoe(object):
 		generate_name(alliterate=False) -> name
 
 		Returns a name that is made from a list of synonyms for sloppy and common names.
-		If alliterate is true will return only names that have the same first character as the adjective.
+		If alliterate is true will return only names where the adjective and the common name have the same first character.
 		"""
 		adjective = self.get_adjective()
 
@@ -26,8 +29,7 @@ class SloppyJoe(object):
 			names = []
 
 			while len(names) == 0:
-				adjective_first_char = adjective[0]
-				names = filter(lambda x: x[0] == adjective_first_char, self.names)
+				names = filter(lambda name: name[0] == adjective[0], self.names)
 				if len(names) == 0: adjective = self.get_adjective() # If there aren't any names, get a new adjective and try again.
 
 		else:
